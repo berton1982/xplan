@@ -2,7 +2,7 @@
 if [ $UID -ne 0 ]
 then
 	echo "switch to sudo"
-	sudo yum makecache && sudo yum -y update
+	echo 'yum makecache && yum -y update' | sudo sh
 else
-	yum -y update
+	yum makecache && yum -y update
 fi
