@@ -16,6 +16,16 @@ net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 EOF
 
+# close swap
+cat /etc/fstab | gawk '{
+  if($2=="swap"){
+    delimiter="#"
+    print delimiter $0
+  }else{
+    print $0
+  } 
+}' > fstab
+
 #shutdown selinux
 cat /etc/sysconfig/selinux | sed '/^SELINUX=/c\SELINUX=disabled' > selinux
 
@@ -25,6 +35,7 @@ then
   echo 'mv a.repo /etc/yum.repos.d/kubernetes.repo &&    
     mv selinux /etc/sysconfig/selinux &&
     mv k8s.conf /etc/sysctl.d/k8s.conf && sysctl --system &&
+    mv fstab /etc/fstab &&
     setenforce 0 &&
     yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes &&
     systemctl disable firewall &&
@@ -34,6 +45,7 @@ else
   mv a.repo /etc/yum.repos.d/kubernetes.repo
   mv selinux /etc/sysconfig/selinux 
   mv k8s.conf /etc/sysctl.d/k8s.conf && sysctl --system
+  mv fstab /etc/fstab
   setenforce 0
   yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
   systemctl enable kubelet
