@@ -1,6 +1,7 @@
 #!/bin/bash
 # install kubelet kubeadm kubectl
 
+# set kubernetes repositry
 cat <<EOF > a.repo
 [kubernetes]
 name=Kubernetes
@@ -9,13 +10,21 @@ enabled=1
 gpgcheck=0
 EOF
 
+# set iptables
+cat <<EOF > k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+
 #shutdown selinux
-cat /etc/sysconfig/selinux | sed '/^SELINUX=/c\SELINUX=disabled' > a
+cat /etc/sysconfig/selinux | sed '/^SELINUX=/c\SELINUX=disabled' > selinux
 
 if [ $UID -ne 0 ]
 then
   echo 'switch to sudo'
   echo 'mv a.repo /etc/yum.repos.d/kubernetes.repo &&    
+    mv selinux /etc/sysconfig/selinux &&
+    mv k8s.conf /etc/sysctl.d/k8s.conf && sysctl --system &&
     setenforce 0 &&
     yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes &&
     systemctl disable firewall &&
@@ -23,9 +32,10 @@ then
     systemctl start kubelet' | sudo sh
 else
   mv a.repo /etc/yum.repos.d/kubernetes.repo
+  mv selinux /etc/sysconfig/selinux 
+  mv k8s.conf /etc/sysctl.d/k8s.conf && sysctl --system
   setenforce 0
   yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
   systemctl enable kubelet
   systemctl start kubelet
-
 fi
