@@ -22,7 +22,7 @@ images=(kube-proxy-amd64:$K8S_VERSION
   
 for imageName in ${images[@]}  
 do
-  docker pull registry.cn-hangzhou.aliyuncs.com/mapsic/$imageName
-  docker tag registry.cn-hangzhou.aliyuncs.com/mapsic/$imageName k8s.gcr.io/$imageName
-  docker rmi registry.cn-hangzhou.aliyuncs.com/mapsic/$imageName
+  docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/$imageName
+  docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/$imageName k8s.gcr.io/$imageName
+  docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/$imageName
 done
