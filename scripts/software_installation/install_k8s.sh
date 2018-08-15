@@ -41,6 +41,9 @@ then
     systemctl disable firewall &&
     systemctl enable kubelet && 
     systemctl start kubelet' | sudo sh
+  # kubectl auto completion
+  source <(kubectl completion bash)
+  echo "source <(kubectl completion bash)" >> ~/.bashrc
 else
   mv a.repo /etc/yum.repos.d/kubernetes.repo
   mv selinux /etc/sysconfig/selinux 
@@ -50,4 +53,7 @@ else
   yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
   systemctl enable kubelet
   systemctl start kubelet
+  # kubectl auto completion
+  source <(kubectl completion bash)
+  echo "source <(kubectl completion bash)" >> ~/.bashrc
 fi
