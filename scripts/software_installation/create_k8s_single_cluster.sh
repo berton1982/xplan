@@ -5,7 +5,8 @@ k8s_version=$(kubeadm version | gawk -F, '{print $3}' | gawk -F: '{print $2'} | 
 # using calico, and using master ip
 if [ $UID -eq 0 ]
 then
-  kubeadm reset && etcdctl del "" --prefix &&
+  kubeadm reset --force && 
+  #etcdctl del "" --prefix &&
   kubeadm init --pod-network-cidr=192.168.0.0/16 --kubernetes-version=$k8s_version
   export KUBECONFIG=/etc/kubernetes/admin.conf
   # install a pod network add-on calico
@@ -16,8 +17,8 @@ then
 else
   echo 'switch to sudo'
   # reset environment and del etcd data. and init cluster as root
-  echo "kubeadm reset && etcdctl del "" --prefix && kubeadm init --pod-network-cidr=192.168.0.0/16 --kubernetes-version=${k8s_version} --ignore-preflight-errors='IsPrivilegedUser,Swap'" | sudo sh
-  To make kubectl work for your non-root user, run these commands, which are also part of the kubeadm init output
+  echo "kubeadm reset --force && kubeadm init --pod-network-cidr=192.168.0.0/16 --kubernetes-version=${k8s_version} --ignore-preflight-errors='IsPrivilegedUser,Swap'" | sudo sh
+  # To make kubectl work for your non-root user, run these commands, which are also part of the kubeadm init output
   mkdir -p $HOME/.kube
   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
   sudo chown $(id -u):$(id -g) $HOME/.kube/config
