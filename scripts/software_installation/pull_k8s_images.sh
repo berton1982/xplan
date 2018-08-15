@@ -20,7 +20,8 @@ images=(kube-proxy-amd64:$K8S_VERSION
   kubernetes-dashboard-amd64:$DASHBOARD_VERSION 
   k8s-dns-sidecar-amd64:$DNS_VERSION 
   k8s-dns-kube-dns-amd64:$DNS_VERSION
-  k8s-dns-dnsmasq-nanny-amd64:$DNS_VERSION)
+  k8s-dns-dnsmasq-nanny-amd64:$DNS_VERSION
+  coredns:$COREDNS_VERSION)
   
 for imageName in ${images[@]}  
 do
