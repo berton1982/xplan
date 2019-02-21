@@ -3,7 +3,14 @@
 class BaseNetClient{
     constructor(){}
 
-    
+    post() {}
+    get() {}
+    html(){}
+    json(){}
+    uploadFile(){}
+    delete() {}
+    websocket() {}
+    jsonp() {}
 }
 
 export { BaseNetClient }
