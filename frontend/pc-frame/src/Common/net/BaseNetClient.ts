@@ -3,8 +3,14 @@
 class BaseNetClient{
     constructor(){}
 
-    post() {}
-    get() {}
+    post(url:string,params:any,options:any):Promise<any> {
+        return new Promise((resolve, reject) => {
+            fetch(url);
+        })
+    }
+    get(url:string,options:any) {
+        return fetch(url)
+    }
     html(){}
     json(){}
     uploadFile(){}

@@ -1,8 +1,12 @@
 import React, {Component} from 'react';
 
+export enum ModuleType { Layout }
+
 interface IModuelInfo{
-    moduleName:string,
     moduleId:string,
+    moduleType:string,
+    // moduleSubType:string,
+    moduleName:string,
     moduleVersion:string,
     moduleDate?:Date,
     author:string,
@@ -15,8 +19,9 @@ export abstract class BaseModule extends Component{
     constructor(props:any){
         super(props);
         this.moduleInfo = {
-            moduleName : "Base Module",
             moduleId : "123",
+            moduleType: "development",
+            moduleName : "Base Module",
             moduleVersion : "0.0.1 alpha",
             moduleDate : new Date(),
             author : "Berton J."     
